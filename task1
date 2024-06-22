@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+bool containsLowercase(const string& password) {
+    for (char ch : password) {
+        if (islower(ch)) return true;
+    }
+    return false;
+}
+
+bool containsUppercase(const string& password) {
+    for (char ch : password) {
+        if (isupper(ch)) return true;
+    }
+    return false;
+}
+
+bool containsDigit(const string& password) {
+    for (char ch : password) {
+        if (isdigit(ch)) return true;
+    }
+    return false;
+}
+
+bool containsSpecialChar(const string& password) {
+    const string specialChars = "!@#$%^&*()-_+=<>?/{}~|";
+    for (char ch : password) {
+        if (specialChars.find(ch) != string::npos) return true;
+    }
+    return false;
+}
+
+string evaluatePasswordStrength(const string& password) {
+    int score = 0;
+
+    if (password.length() >= 8) score++;
+    if (containsLowercase(password)) score++;
+    if (containsUppercase(password)) score++;
+    if (containsDigit(password)) score++;
+    if (containsSpecialChar(password)) score++;
+
+    if (score <= 2) return "Weak";
+    else if (score == 3) return "Moderate";
+    else if (score == 4) return "Strong";
+    else return "Very Strong";
+}
+
+int main() {
+    string password;
+    cout << "Enter a password to check its strength: ";
+    cin >> password;
+
+    string strength = evaluatePasswordStrength(password);
+    cout << "Password strength: " << strength << endl;
+
+    return 0;
+}
